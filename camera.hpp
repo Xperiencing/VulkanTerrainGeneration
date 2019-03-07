@@ -29,9 +29,11 @@ public:
 	glm::vec3 Up;
 	glm::vec3 Right;
 	glm::vec3 WorldUp;
+
 	// Euler Angles
 	float Yaw;
 	float Pitch;
+
 	// Camera options
 	float MovementSpeed;
 	float MouseSensitivity;
@@ -76,6 +78,10 @@ public:
 			Position -= glm::normalize(glm::cross(Front, Up)) * cameraSpeed;
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			Position += glm::normalize(glm::cross(Front, Up)) * cameraSpeed;
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			Position += cameraSpeed * WorldUp;
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+			Position += cameraSpeed * (WorldUp * (float)-1);
 	}
 
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
@@ -117,6 +123,7 @@ private:
 		front.y = sin(glm::radians(Pitch));
 		front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		Front = glm::normalize(front);
+
 		// Also re-calculate the Right and Up vector
 		Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		Up = glm::normalize(glm::cross(Right, Front));

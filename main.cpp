@@ -73,7 +73,6 @@ class TerrainGenerator {
 public:
 	void run() {
 		initWindow();
-		setInitalCamPos();
 		initVulkan();
 		mainLoop();
 		cleanup();
@@ -154,10 +153,6 @@ private:
 	static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
 		auto app = reinterpret_cast<TerrainGenerator*>(glfwGetWindowUserPointer(window));
 		app->framebufferResized = true;
-	}
-
-	void setInitalCamPos() {
-		camera.Position = glm::vec3(2.0f, 2.0f, 2.0f);
 	}
 
 	void initVulkan() {
@@ -260,32 +255,15 @@ private:
 		lastX = xpos;
 		lastY = ypos;
 
+		camera.ProcessMouseMovement(xoffset, yoffset);
+
 		xoffset *= camera.MouseSensitivity;
 		yoffset *= camera.MouseSensitivity;
-
-		camera.Yaw += xoffset;
-		camera.Pitch += yoffset;
-
-		if (camera.Pitch > 89.0f)
-			camera.Pitch = 89.0f;
-		if (camera.Pitch < -89.0f)
-			camera.Pitch = -89.0f;
-
-		glm::vec3 front;
-		front.x = cos(glm::radians(camera.Yaw)) * cos(glm::radians(camera.Pitch));
-		front.y = sin(glm::radians(camera.Pitch));
-		front.z = sin(glm::radians(camera.Yaw)) * cos(glm::radians(camera.Pitch));
-		camera.Front = glm::normalize(front);
 	}
 
 	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		if (camera.Zoom >= 1.0f && camera.Zoom <= 45.0f)
-			camera.Zoom -= yoffset;
-		if (camera.Zoom <= 1.0f)
-			camera.Zoom = 1.0f;
-		if (camera.Zoom >= 45.0f)
-			camera.Zoom = 45.0f;
+		camera.ProcessMouseScroll(yoffset);
 	}
 
 	void createInstance() {

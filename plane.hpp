@@ -54,10 +54,10 @@ public:
 		//generateVertsIndices();
 
 		vertices = {
-			{{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-			{{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-			{{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-			{{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+			{{-0.5f, 1.0f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+			{{0.5f, 1.0f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+			{{0.5f, 1.0f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+			{{-0.5f, 1.0f, 0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
 
 			{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
 			{{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
@@ -79,10 +79,11 @@ private:
 			for (int i = 0; i <= size; ++i)
 			{
 				float x = (float)i / area;
-				float y = (float)j / area;
-				float z = f(x, y);
+				float z = (float)j / area;
+				float y = f(z, x);
+				
 
-				vertices.push_back({ glm::vec3(x, y, z), { floatRand(), floatRand(), floatRand() }, { 1.0f, 1.0f } });
+				vertices.push_back({ glm::vec3(x, y, z), { floatRand(), floatRand(), floatRand() }, { (float)i/area, (float)j/area} });
 			}
 		}
 
@@ -109,7 +110,7 @@ private:
 	float f(float x, float y)
 	{
 		// use any curve function you want
-		return sin(x*2.0f*3.141526f) * sin(y*2.0f*3.141526f) * 0.1f;
+		return sin(x*2.0f*3.141526f) * sin(y*2.0f*3.141526f) * 0.5f;
 	}
 
 	float floatRand() {
