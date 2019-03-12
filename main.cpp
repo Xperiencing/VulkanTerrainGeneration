@@ -18,11 +18,11 @@ const std::vector<const char*> deviceExtensions = {
 };
 
 
-//#ifdef NDEBUG
-//const bool enableValidationLayers = false;
-//#else
-const bool enableValidationLayers = true;
-//#endif
+#ifdef NDEBUG
+	const bool enableValidationLayers = false;
+#else
+	const bool enableValidationLayers = true;
+#endif
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -529,13 +529,26 @@ private:
 		subpass.pColorAttachments = &colorAttachmentRef;
 		subpass.pDepthStencilAttachment = &depthAttachmentRef;
 
-		VkSubpassDependency dependency = {};
-		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-		dependency.dstSubpass = 0;
-		dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.srcAccessMask = 0;
-		dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		std::vector<VkSubpassDependency> subpass_dependencies = {
+			{
+				VK_SUBPASS_EXTERNAL,                            // uint32_t                   srcSubpass
+				0,                                              // uint32_t                   dstSubpass
+				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,              // VkPipelineStageFlags       srcStageMask
+				VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,  // VkPipelineStageFlags       dstStageMask
+				VK_ACCESS_MEMORY_READ_BIT,                      // VkAccessFlags              srcAccessMask
+				VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,           // VkAccessFlags              dstAccessMask
+				VK_DEPENDENCY_BY_REGION_BIT                     // VkDependencyFlags          dependencyFlags
+			},
+			{
+				0,                                              // uint32_t                   srcSubpass
+				VK_SUBPASS_EXTERNAL,                            // uint32_t                   dstSubpass
+				VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,  // VkPipelineStageFlags       srcStageMask
+				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,              // VkPipelineStageFlags       dstStageMask
+				VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,           // VkAccessFlags              srcAccessMask
+				VK_ACCESS_MEMORY_READ_BIT,                      // VkAccessFlags              dstAccessMask
+				VK_DEPENDENCY_BY_REGION_BIT                     // VkDependencyFlags          dependencyFlags
+			}
+		};
 
 		std::array<VkAttachmentDescription, 2> attachments = { colorAttachment, depthAttachment };
 		VkRenderPassCreateInfo renderPassInfo = {};
@@ -544,8 +557,8 @@ private:
 		renderPassInfo.pAttachments = attachments.data();
 		renderPassInfo.subpassCount = 1;
 		renderPassInfo.pSubpasses = &subpass;
-		renderPassInfo.dependencyCount = 1;
-		renderPassInfo.pDependencies = &dependency;
+		renderPassInfo.dependencyCount = static_cast<uint32_t>(subpass_dependencies.size());
+		renderPassInfo.pDependencies = subpass_dependencies.data();
 
 		if (vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create render pass!");

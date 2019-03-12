@@ -74,7 +74,7 @@ private:
 			{
 				float x = (float)i / area;
 				float z = (float)j / area;
-				float y = f(z, x);
+				float y = 0.0f;
 				
 
 				vertices.push_back({ glm::vec3(x, y, z), { (float)i/area, (float)j/area} });
