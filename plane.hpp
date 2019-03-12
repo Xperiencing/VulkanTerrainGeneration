@@ -6,7 +6,6 @@
 //Vertex structure, defining the attributes of each vertex.
 struct Vertex {
 	glm::vec3 pos;
-	glm::vec3 color;
 	glm::vec2 texCoord;
 
 	static VkVertexInputBindingDescription getBindingDescription() {
@@ -16,8 +15,8 @@ struct Vertex {
 		bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 		return bindingDescription;
 	}
-	static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() {
-		std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions = {};
+	static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
+		std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions = {};
 
 		attributeDescriptions[0].binding = 0;
 		attributeDescriptions[0].location = 0;
@@ -26,13 +25,8 @@ struct Vertex {
 
 		attributeDescriptions[1].binding = 0;
 		attributeDescriptions[1].location = 1;
-		attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-		attributeDescriptions[1].offset = offsetof(Vertex, color);
-
-		attributeDescriptions[2].binding = 0;
-		attributeDescriptions[2].location = 2;
-		attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
-		attributeDescriptions[2].offset = offsetof(Vertex, texCoord);
+		attributeDescriptions[1].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[1].offset = offsetof(Vertex, texCoord);
 
 		return attributeDescriptions;
 	}
@@ -54,15 +48,15 @@ public:
 		generateVertsIndices();
 
 		/*vertices = {
-			{{-0.5f, 1.0f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-			{{0.5f, 1.0f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-			{{0.5f, 1.0f, 0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-			{{-0.5f, 1.0f, 0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+			{{-0.5f, 1.0f, -0.5f},  {0.0f, 0.0f}},
+			{{0.5f, 1.0f, -0.5f}, {1.0f, 0.0f}},
+			{{0.5f, 1.0f, 0.5f}, {1.0f, 1.0f}},
+			{{-0.5f, 1.0f, 0.5f}, {0.0f, 1.0f}},
 
-			{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-			{{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-			{{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-			{{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
+			{{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f}},
+			{{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f}},
+			{{0.5f, 0.5f, -0.5f}, {1.0f, 1.0f}},
+			{{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f}}
 		};
 
 		indices = {
@@ -83,7 +77,7 @@ private:
 				float y = f(z, x);
 				
 
-				vertices.push_back({ glm::vec3(x, y, z), { floatRand(), floatRand(), floatRand() }, { (float)i/area, (float)j/area} });
+				vertices.push_back({ glm::vec3(x, y, z), { (float)i/area, (float)j/area} });
 			}
 		}
 
@@ -113,9 +107,6 @@ private:
 		return sin(x*2.0f*3.141526f) * sin(y*2.0f*3.141526f) * 0.5f;
 	}
 
-	float floatRand() {
-		return float(rand()) / (float(RAND_MAX) + 1.0);
-	}
 };
 
 #endif
