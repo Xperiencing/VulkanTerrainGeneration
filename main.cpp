@@ -67,7 +67,7 @@ Camera camera;
 float lastX = 400, lastY = 300;
 bool firstMouse = true;
 
-Plane plane(100, 10);
+Plane plane(10, 5);
 
 class TerrainGenerator {
 public:
@@ -360,6 +360,7 @@ private:
 		}
 
 		VkPhysicalDeviceFeatures deviceFeatures = {};
+		deviceFeatures.samplerAnisotropy = true;
 		deviceFeatures.tessellationShader = true;
 		deviceFeatures.geometryShader = true;
 		deviceFeatures.fillModeNonSolid = true;
@@ -392,6 +393,10 @@ private:
 	}
 
 	void cleanupSwapChain() {
+		vkDestroyImageView(device, depthImageView, nullptr);
+		vkDestroyImage(device, depthImage, nullptr);
+		vkFreeMemory(device, depthImageMemory, nullptr);
+
 		for (auto framebuffer : swapChainFramebuffers) {
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}
@@ -654,7 +659,7 @@ private:
 		rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		rasterizer.depthClampEnable = VK_FALSE;
 		rasterizer.rasterizerDiscardEnable = VK_FALSE;
-		rasterizer.polygonMode = VK_POLYGON_MODE_LINE;
+		rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
 		rasterizer.lineWidth = 1.0f;
 		rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
 		rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
@@ -673,7 +678,7 @@ private:
 		depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		depthStencil.depthTestEnable = VK_TRUE;
 		depthStencil.depthWriteEnable = VK_TRUE;
-		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
 		depthStencil.depthBoundsTestEnable = VK_FALSE;
 		depthStencil.minDepthBounds = 0.0f; // Optional
 		depthStencil.maxDepthBounds = 1.0f; // Optional
@@ -746,7 +751,7 @@ private:
 		uboLayoutBinding.descriptorCount = 1;
 		uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		uboLayoutBinding.pImmutableSamplers = nullptr;
-		uboLayoutBinding.stageFlags = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT | VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+		uboLayoutBinding.stageFlags = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT | VK_SHADER_STAGE_GEOMETRY_BIT;
 
 		VkDescriptorSetLayoutBinding samplerLayoutBinding = {};
 		samplerLayoutBinding.binding = 1;
@@ -1367,13 +1372,11 @@ private:
 		}
 
 		VkPhysicalDeviceFeatures supportedFeatures;
-		supportedFeatures.tessellationShader = true;
-		supportedFeatures.geometryShader = true;
-		supportedFeatures.fillModeNonSolid = true;
 		
 		vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
 
-		return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
+		return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy 
+				&& supportedFeatures.tessellationShader && supportedFeatures.geometryShader && supportedFeatures.fillModeNonSolid;
 	}
 
 	bool checkDeviceExtensionSupport(VkPhysicalDevice device) {
@@ -1517,13 +1520,12 @@ private:
 
 
 		UniformBufferObject ubo = {};
-		/*ubo.model = glm::mat4(1.0f);
+		//ubo.ModelViewMatrix = glm::mat4(1.0f);
 		//ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		ubo.view = camera.GetViewMatrix();
-		
+		//ubo.ProjectionMatrix = camera.GetViewMatrix();
 
-		ubo.proj = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
+		/*ubo.proj = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
 		ubo.proj[1][1] *= -1;*/
 
 		void* data;

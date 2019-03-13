@@ -10,6 +10,4 @@ d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(255): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(256): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(266): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(1425): warning C4715: 'TerrainGenerator::chooseSwapSurfaceFormat': not all control paths return a value
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  VulkanTerrainCreator.vcxproj -> D:\College\Final Year project\VulkanTerrainGeneration\VulkanTerrainCreator\x64\Debug\VulkanTerrainCreator.exe
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(1428): warning C4715: 'TerrainGenerator::chooseSwapSurfaceFormat': not all control paths return a value
