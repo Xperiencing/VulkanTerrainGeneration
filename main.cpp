@@ -60,14 +60,13 @@ struct SwapChainSupportDetails {
 struct UniformBufferObject {
     alignas(16) glm::mat4 ModelViewMatrix;
     alignas(16) glm::mat4 ProjectionMatrix;
-    //alignas(16) glm::mat4 proj;
 };
 
 Camera camera;
 float lastX = 400, lastY = 300;
 bool firstMouse = true;
 
-Plane plane(10, 5);
+Plane plane(10, 10);
 
 class TerrainGenerator {
 public:
@@ -618,7 +617,7 @@ private:
 		teseShaderStageInfo.pName = "main";
 		teseShaderStageInfo.pSpecializationInfo = nullptr;
 
-		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo, geomShaderStageInfo, tescShaderStageInfo, teseShaderStageInfo };
+		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, tescShaderStageInfo, teseShaderStageInfo, geomShaderStageInfo, fragShaderStageInfo };
 
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
@@ -661,7 +660,7 @@ private:
 		rasterizer.rasterizerDiscardEnable = VK_FALSE;
 		rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
 		rasterizer.lineWidth = 1.0f;
-		rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+		rasterizer.cullMode = VK_CULL_MODE_FRONT_BIT;
 		rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rasterizer.depthBiasEnable = VK_FALSE;
 
@@ -1520,13 +1519,13 @@ private:
 
 
 		UniformBufferObject ubo = {};
-		//ubo.ModelViewMatrix = glm::mat4(1.0f);
+		ubo.ModelViewMatrix = glm::mat4(1.0f);
 		//ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		//ubo.ProjectionMatrix = camera.GetViewMatrix();
+		ubo.ProjectionMatrix = camera.GetViewMatrix();
 
-		/*ubo.proj = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
-		ubo.proj[1][1] *= -1;*/
+		//ubo.proj = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
+		//ubo.proj[1][1] *= -1;
 
 		void* data;
 		vkMapMemory(device, uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);

@@ -2,12 +2,13 @@
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\plane.hpp(88): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\plane.hpp(89): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\camera.hpp(72): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(188): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(187): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(247): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(248): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(249): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(252): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(253): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(254): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(254): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(255): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(256): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(266): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(1428): warning C4715: 'TerrainGenerator::chooseSwapSurfaceFormat': not all control paths return a value
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(265): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\college\final year project\vulkanterraingeneration\vulkanterraincreator\main.cpp(1427): warning C4715: 'TerrainGenerator::chooseSwapSurfaceFormat': not all control paths return a value
+  VulkanTerrainCreator.vcxproj -> D:\College\Final Year project\VulkanTerrainGeneration\VulkanTerrainCreator\x64\Debug\VulkanTerrainCreator.exe
