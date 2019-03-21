@@ -58,8 +58,9 @@ struct SwapChainSupportDetails {
 };
 
 struct UniformBufferObject {
-    alignas(16) glm::mat4 ModelViewMatrix;
-    alignas(16) glm::mat4 ProjectionMatrix;
+    alignas(16) glm::mat4 modelMatrix;
+    alignas(16) glm::mat4 viewMatrix;
+	alignas(16) glm::mat4 projectionMatrix;
 };
 
 Camera camera;
@@ -1519,13 +1520,16 @@ private:
 
 
 		UniformBufferObject ubo = {};
-		ubo.ModelViewMatrix = glm::mat4(1.0f);
+		ubo.modelMatrix = glm::mat4(1.0f);
+		ubo.modelMatrix[1][0] *= -1;
+		ubo.modelMatrix[1][1] *= -1;
+		ubo.modelMatrix[1][2] *= -1;
+		ubo.modelMatrix[1][3] *= -1;
 		//ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		ubo.ProjectionMatrix = camera.GetViewMatrix();
+		ubo.viewMatrix = camera.GetViewMatrix();
 
-		//ubo.proj = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
-		//ubo.proj[1][1] *= -1;
+		ubo.projectionMatrix = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
 
 		void* data;
 		vkMapMemory(device, uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);
