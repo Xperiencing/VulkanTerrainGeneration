@@ -3,8 +3,8 @@
 layout( location = 0 ) in vec2 vert_texcoord[];
 
 layout( set = 0, binding = 0 ) uniform UniformBuffer {
-  mat4 ModelViewMatrix;
-  mat4 ProjectionMatrix;
+  mat4 modelViewMatrix;
+  mat4 projectionMatrix;
 };
 
 layout( set = 0, binding = 1 ) uniform sampler2D ImageSampler;
@@ -19,7 +19,7 @@ void main() {
 
     for( int i = 0; i < 3; ++i ) {
       float height = texture( ImageSampler, vert_texcoord[i] ).x;
-      vec4 position = ModelViewMatrix * (gl_in[i].gl_Position + vec4( 0.0, height, 0.0, 0.0 ));
+      vec4 position = modelViewMatrix * (gl_in[i].gl_Position + vec4( 0.0, height, 0.0, 0.0 ));
       distances[i] = dot( position, position );
     }
     factors[0] = min( distances[1], distances[2] );

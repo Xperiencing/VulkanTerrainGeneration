@@ -72,12 +72,12 @@ private:
 		{
 			for (int i = 0; i <= size; ++i)
 			{
-				float x = (float)i / area;
-				float z = (float)j / area;
+				float x = (float)i / (size/area);
+				float z = (float)j / (size/area);
 				float y = 0.0f;
 				
 
-				vertices.push_back({ glm::vec3(x, y, z), { (float)i/area, (float)j/area} });
+				vertices.push_back({ glm::vec3(x, y, z), { (float)i/size, (float)j/size} });
 			}
 		}
 

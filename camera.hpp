@@ -79,9 +79,9 @@ public:
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			Position += glm::normalize(glm::cross(Front, Up)) * cameraSpeed;
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			Position += cameraSpeed * WorldUp;
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 			Position += cameraSpeed * (WorldUp * (float)-1);
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+			Position += cameraSpeed * WorldUp;
 	}
 
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
@@ -90,7 +90,7 @@ public:
 		yoffset *= MouseSensitivity;
 
 		Yaw += xoffset;
-		Pitch += yoffset;
+		Pitch -= yoffset;
 
 		// Make sure that when pitch is out of bounds, screen doesn't get flipped
 		if (constrainPitch) {

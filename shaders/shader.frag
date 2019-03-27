@@ -12,6 +12,6 @@ void main() {
   vec4 color = mix( green, brown, smoothstep( 0.0, 0.4, geom_height ) );
   color = mix( color, white, smoothstep( 0.6, 0.9, geom_height ) );
 
-  float diffuse_light = max( 0.0, dot( geom_normal, vec3( 0.58, 0.58, 0.58 ) ) );
+  float diffuse_light = max( 0.0, dot( geom_normal, vec3( 0.58, -0.01, 0.58 ) ) );
   frag_color = vec4( 0.05, 0.05, 0.0, 0.0 ) + diffuse_light * color;
 }

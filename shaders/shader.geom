@@ -4,8 +4,8 @@ layout( triangles ) in;
 layout( location = 0 ) in float tese_height[];
 
 layout( set = 0, binding = 0 ) uniform UniformBuffer {
-  mat4 ModelViewMatrix;
-  mat4 ProjectionMatrix;
+  mat4 modelViewMatrix;
+  mat4 projectionMatrix;
 };
 
 layout( triangle_strip, max_vertices = 3 ) out;
@@ -18,7 +18,7 @@ void main() {
   vec3 normal = normalize( cross( v0v1, v0v2 ) );
   
   for( int vertex = 0; vertex < 3; ++vertex ) {
-    gl_Position = ProjectionMatrix * ModelViewMatrix * gl_in[vertex].gl_Position;
+    gl_Position = projectionMatrix * modelViewMatrix * gl_in[vertex].gl_Position;
     geom_height = tese_height[vertex];
     geom_normal = normal;
     EmitVertex();

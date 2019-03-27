@@ -58,8 +58,7 @@ struct SwapChainSupportDetails {
 };
 
 struct UniformBufferObject {
-    alignas(16) glm::mat4 modelMatrix;
-    alignas(16) glm::mat4 viewMatrix;
+    alignas(16) glm::mat4 modelViewMatrix;
 	alignas(16) glm::mat4 projectionMatrix;
 };
 
@@ -67,7 +66,7 @@ Camera camera;
 float lastX = 400, lastY = 300;
 bool firstMouse = true;
 
-Plane plane(10, 10);
+Plane plane(50, 5);
 
 class TerrainGenerator {
 public:
@@ -846,7 +845,7 @@ private:
 
 	void createTextureImage() {
 		int texWidth, texHeight, texChannels;
-		stbi_uc* pixels = stbi_load("textures/heightmap.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+		stbi_uc* pixels = stbi_load("textures/heightmap2.png", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
 		VkDeviceSize imageSize = texWidth * texHeight * 4;
 		
 		if (!pixels) {
@@ -1520,14 +1519,16 @@ private:
 
 
 		UniformBufferObject ubo = {};
-		ubo.modelMatrix = glm::mat4(1.0f);
-		ubo.modelMatrix[1][0] *= -1;
-		ubo.modelMatrix[1][1] *= -1;
-		ubo.modelMatrix[1][2] *= -1;
-		ubo.modelMatrix[1][3] *= -1;
+		ubo.modelViewMatrix = camera.GetViewMatrix() * glm::mat4(1.0f);
+
+		ubo.modelViewMatrix[1][0] *= -1;
+		ubo.modelViewMatrix[1][1] *= -1;
+		ubo.modelViewMatrix[1][2] *= -1;
+		ubo.modelViewMatrix[1][3] *= -1;
+
 		//ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		ubo.viewMatrix = camera.GetViewMatrix();
+		//ubo.viewMatrix = camera.GetViewMatrix();
 
 		ubo.projectionMatrix = glm::perspective(glm::radians(camera.Zoom), swapChainExtent.width / (float)swapChainExtent.height, 0.1f, 10.0f);
 
